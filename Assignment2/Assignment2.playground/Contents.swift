@@ -101,11 +101,21 @@ typealias Position = (row: Int, col: Int)
 enum CellState {
     // ** Your Problem 2 code goes here! Replace the contents of CellState **
     //  This shell code is here so that at all times the playground compiles and runs
-    case empty
+    case alive, empty, born, died
     
     var isAlive: Bool {
         return false
     }
+    
+    //set up a way to set isAlive to true if even, false if odd
+    switch CellState {
+        case .alive:
+            return true
+        case .born:
+            return true
+        default:
+            return false
+        }
 }
 /*:
  ## Problem 3:
