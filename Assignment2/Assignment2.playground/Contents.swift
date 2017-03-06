@@ -99,24 +99,18 @@ typealias Position = (row: Int, col: Int)
  Failure to follow all rules will result in zero credit
 */
 enum CellState {
-    // ** Your Problem 2 code goes here! Replace the contents of CellState **
-    //  This shell code is here so that at all times the playground compiles and runs
     case alive, empty, born, died
     
     var isAlive: Bool {
-        return false
-    }
-    
-    //set up a way to set isAlive to true if even, false if odd
-    switch CellState {
-        case .alive:
-            return true
-        case .born:
+    switch self {
+        case .alive, .born:
             return true
         default:
             return false
         }
+    }
 }
+    
 /*:
  ## Problem 3:
  In the struct Cell below:
@@ -124,12 +118,13 @@ enum CellState {
  2. allow Swift to infer the two types, i.e. **do not** put `:Type` on the
  left hand side of the equals sign.
 */
-// A struct representing a Cell in Conway's Game of Life
+
+    // A struct representing a Cell in Conway's Game of Life
 struct Cell {
-    // ** Your Problem 3 code goes here! replace the following two lines **
-    var position: Position
-    var state: CellState
+    var position: Position = Position(row: 0 , col: 0)
+    var state: CellState = CellState.empty
 }
+
 /*:
  ## Problem 4:
  I am providing the following function, `map2` immediately below.
@@ -139,28 +134,28 @@ struct Cell {
  */
 // ** Your Problem 4.1 answer goes here **
 /*
- 
+ Allow you to leave off the rows and cols parameter designations when calling the function
  */
 /*:
  2. what is the type of the `transform` variable
  */
 // ** Your Problem 4.2 answer goes here **
 /*
- 
+ (Int, Int) -> T
  */
 /*:
  3. what is the return type of `map2`
  */
 // ** Your Problem 4.3 answer goes here **
 /*
- 
+ Array of Arrays
  */
 /*:
  4. what is `T` in this declaration
  */
 // ** Your Problem 4.4 answer goes here **
 /*
- 
+ A generic type parameter; it acts as a placeholder
  */
 // A function which is like the standard map function but
 // which will operate only on a two dimensional array
@@ -185,7 +180,7 @@ func map2<T>(_ rows: Int, _ cols: Int, transform: (Int, Int) -> T) -> [[T]] {
 */
 // ** Your Problem 5 comment goes here! **
 /*
- 
+ the variable represents the 8 nearest neighbors
  */
 /*:
  ## Problem 6:
@@ -227,14 +222,15 @@ struct Grid {
     ]
     
     // ** Your Problem 6 code goes here! Change the following two lines **
-    var rows: Int = 0
-    var cols: Int = 0
+    var rows: Int = 10
+    var cols: Int = 10
     var cells: [[Cell]] = [[Cell]]()
     
     init(_ rows: Int,
          _ cols: Int,
          cellInitializer: (Int, Int) -> CellState = { _,_ in .empty } ) {
         // ** Your Problem 7 code goes here! **
+        
         map2(rows, cols) { row, col in
             // ** Your Problem 8 code goes here! **
         }
@@ -304,22 +300,22 @@ extension Grid {
  1. what do you expect the combine argument to do
  */
 // ** Your Problem 11.1 answer goes here **
-/*
- 
+/*ANSWER
+ returns the number of cells in the grid
  */
 /*:
  2. what is the return type of reduce2
  */
 // ** Your Problem 11.2 answer goes here **
-/*
- 
+/*ANSWER
+ Integer
  */
 /*:
  3. why is there no T parameter here as in map2 above
  */
 // ** Your Problem 11.3 answer goes here **
-/*
- 
+/*ANSWER
+ reduce functions convert collcetions or array-like things to single values, map returns a collection.
  */
 
 // A function which is useful for counting things in an array of arrays of things
@@ -346,8 +342,8 @@ func reduce2(_ rows: Int, _ cols: Int, combine: (Int, Int, Int) -> Int) -> Int  
 extension Grid {
     var numLiving: Int {
         return reduce2(self.rows, self.cols) { total, row, col in
-            // ** Your Problem 12 code goes here! replace the following line
-            return 0
+            // Answer is the following line
+            return ((self.CellState.isAlive) ? total + 1 : total)
         }
     }
 }
@@ -431,21 +427,21 @@ extension Grid {
  */
 // Problem 15.1 answer goes here
 /*
- 
+ Position, CellState (Int, Int, Enum)
  */
 /*:
  2. what the type of `self[row,col]`?
  */
 // Problem 15.2 answer goes here
 /*
- 
+ Int
  */
 /*:
  3. why those two types are different?
  */
 // Problem 15.3 comment goes here
 /*
- 
+ One fully describes the cell, the other describes the state of the neighbor
  */
 /*:
  4. under what circumstances will the `else` clause will be executed?
@@ -480,7 +476,7 @@ extension Grid {
 
 // Problem 17 comment goes here
 /*
- 
+ Indicates the next neighbor
  */
 
 /*:
